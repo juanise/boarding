@@ -1,24 +1,21 @@
 package com.pf.boarding;
-import java.time.Duration;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+
+import com.pf.boarding.model.Embarque;
+import com.pf.boarding.service.EmbarqueTemplateOperations;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import com.pf.boarding.model.Embarque;
-import com.pf.boarding.repository.EmbarqueRepository;
+import java.time.Duration;
+import java.time.ZoneId;
+import java.util.*;
 
 @SpringBootApplication
 public class BoardingApplication {
 
 	@Bean
-	CommandLineRunner embarques(EmbarqueRepository embarqueRepository) {
+	CommandLineRunner embarques(EmbarqueTemplateOperations embarqueRepository) {
 		Random r = new Random();
 		List<Embarque> lis = new ArrayList<Embarque>();
 		for (int i = 0; i < 100; i++) {
@@ -40,7 +37,7 @@ public class BoardingApplication {
 			int valorDado = r.nextInt(6) + 1;
 			int valorDado2 = r.nextInt(10) + 1;
 			
-			lis.add(new Embarque(UUID.randomUUID().toString(), dateIni, "A" + valorDado, getCiudad(valorDado), getTienda(valorDado2), dateFin, sale, tiempoTotal));
+			lis.add(new Embarque(UUID.randomUUID().toString(), dateIni, "A" + valorDado, getCiudad(valorDado), dateFin, sale, getTienda(valorDado2), tiempoTotal));
 		}
 		return arg -> {
 			embarqueRepository.deleteAll().subscribe(null, null, () -> {

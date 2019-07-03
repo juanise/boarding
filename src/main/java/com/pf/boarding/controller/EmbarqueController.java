@@ -1,30 +1,30 @@
 package com.pf.boarding.controller;
-import java.text.ParseException;
-import java.time.Duration;
-import java.util.Date;
-import java.util.stream.Stream;
 
+import com.pf.boarding.model.Average;
+import com.pf.boarding.model.Embarque;
+import com.pf.boarding.model.Pases;
+import com.pf.boarding.service.EmbarqueTemplateOperations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.pf.boarding.model.Embarque;
-import com.pf.boarding.model.Pases;
-import com.pf.boarding.service.EmbarqueService;
-
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.util.function.Tuple2;
+
+import java.text.ParseException;
+import java.time.Duration;
+import java.util.Date;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/embarque")
 public class EmbarqueController {
 	
 	@Autowired
-	private EmbarqueService embarqueService;
+	private EmbarqueTemplateOperations embarqueService;
 	
 	@GetMapping("/all")
 	public Flux<Embarque> getAll() {
@@ -49,7 +49,7 @@ public class EmbarqueController {
 		});		
 	}
 	@GetMapping("/{destino}/tiempo-medio/{anyo}")
-	public Flux<Embarque> getTiempoMedio(@PathVariable("destino") final String destino, @PathVariable("anyo") @DateTimeFormat(pattern = "yyyy") Date fecha) throws ParseException {
+	public Mono<Average> getTiempoMedio(@PathVariable("destino") final String destino, @PathVariable("anyo") @DateTimeFormat(pattern = "yyyy") Date fecha)  {
 		return embarqueService.getAverageTimpoMedio(destino, fecha);
 	}
 	

@@ -9,6 +9,7 @@ import java.util.Date;
 @EqualsAndHashCode
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Document
 public class Embarque {
@@ -22,18 +23,6 @@ public class Embarque {
     private Integer sale;
     private String tienda;
     private Long tiempoTotal;
-
-    public Embarque(String idTarjetaEmbarque, Date fechaPasoSeguridad, String puertaEmbarqueUtilizada, String destino, String tienda, Date fechaEmbarque, Integer sale, Long tiempoTotal) {
-		super();
-		this.idTarjetaEmbarque = idTarjetaEmbarque;
-		this.fechaPasoSeguridad = fechaPasoSeguridad;
-		this.puertaEmbarqueUtilizada = puertaEmbarqueUtilizada;
-		this.destino = destino;
-		this.fechaEmbarque = fechaEmbarque;
-		this.sale = sale;
-		this.tienda = tienda;
-		this.tiempoTotal = tiempoTotal;
-	}
 
 	public Embarque (Long tiempoMedio){
     	super();
@@ -88,7 +77,7 @@ public class Embarque {
 		this.tienda = tienda;
 	}
 
-	public int getSale() {
+	public Integer getSale() {
 		return sale;
 	}
 
@@ -96,12 +85,15 @@ public class Embarque {
 		this.sale = sale;
 	}
 
-	public long getTiempoTotal() {
+	public Long getTiempoTotal() {
 		return tiempoTotal;
 	}
 
-	public void setTiempoTotal(long tiempoTotal) {
+	public void setTiempoTotal(Long tiempoTotal) {
 		this.tiempoTotal = tiempoTotal;
 	}
 
+	public void setSale(Integer sale) {
+		this.sale = sale;
+	}
 }
