@@ -70,12 +70,18 @@ public class EmbarqueTemplateOperations {
         return template.dropCollection(Embarque.class);
     }
 
+    /**
+     * Q11
+     * @param tienda
+     * @param anyo
+     * @return
+     */
     public Flux<ImporteTienda> getIngresosPorTienda(String tienda, Date anyo) {
         final MatchOperation matchFechaUp = Aggregation.match(new Criteria("fechaCompra").gte(DateUtils.truncate(anyo, Calendar.YEAR)));
 
         final MatchOperation matchFechaDown = Aggregation.match(new Criteria("fechaCompra").lt(DateUtils.ceiling(anyo, Calendar.YEAR)));
 
-        final GroupOperation groupDestino = group("nombreTienda").count().as("numeroPasajeros").sum("sale").as("importeTotal");
+        final GroupOperation groupDestino = group("nombreTienda", "destino").count().as("numeroPasajeros").sum("sale").as("importeTotal");
         final GroupOperation groupSale = group("nombreTienda").sum("sale").as("importeTotal");
         final MatchOperation matchTienda = Aggregation.match(new Criteria("nombreTienda").is(tienda));
 
