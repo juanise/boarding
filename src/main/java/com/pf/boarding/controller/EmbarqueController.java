@@ -2,7 +2,8 @@ package com.pf.boarding.controller;
 
 import com.pf.boarding.model.Average;
 import com.pf.boarding.model.Embarque;
-import com.pf.boarding.model.Pases;
+import com.pf.boarding.model.ImporteTienda;
+import com.pf.boarding.model.Tienda;
 import com.pf.boarding.service.EmbarqueTemplateOperations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -14,7 +15,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.util.function.Tuple2;
 
-import java.text.ParseException;
 import java.time.Duration;
 import java.util.Date;
 import java.util.stream.Stream;
@@ -35,23 +35,20 @@ public class EmbarqueController {
 	public Mono<Embarque> getId(@PathVariable("id") final String embId){
 		return embarqueService.findById(embId);
 	}
-	
-	@GetMapping("/{id}/pases")
-	public Flux<Pases> getPases(@PathVariable("id") final String embId){
-		
-		return embarqueService.findById(embId)
-		.flatMapMany(embarque->{
-			Flux<Long> interval = Flux.interval(Duration.ofSeconds(2));
-			Flux<Pases> pasesFlux=
-					Flux.fromStream(Stream.generate(()->new Pases(embarque, new Date()))
-					);
-		return Flux.zip(interval, pasesFlux).map(Tuple2::getT2);
-		});		
-	}
+
 	@GetMapping("/{destino}/tiempo-medio/{anyo}")
-	public Mono<Average> getTiempoMedio(@PathVariable("destino") final String destino, @PathVariable("anyo") @DateTimeFormat(pattern = "yyyy") Date fecha)  {
-		return embarqueService.getAverageTimpoMedio(destino, fecha);
+	public Mono<Average> getTiempoMedio(@PathVariable("destino") final String destino, @PathVariable("anyo") @DateTimeFormat(pattern = "yyyy") Date anyo)  {
+		return embarqueService.getAverageTiempoMedioDestino(destino, anyo);
 	}
-	
+
+	@GetMapping("/{puerta}/tiempo-puertas/{anyo}")
+	public Mono<Average> getAverageTiempoMedioEmbarque(@PathVariable("puerta") String puerta, @PathVariable("anyo") @DateTimeFormat(pattern = "yyyy") Date anyo){
+		return embarqueService.getAverageTiempoMedioEmbarque(puerta, anyo);
+	}
+
+	@GetMapping("{nombreTienda}/indresos/{anyo}")
+	public Flux<ImporteTienda> getIngresosPorTienda(@PathVariable("nombreTienda") final String nombreTienda, @PathVariable("anyo") @DateTimeFormat(pattern = "yyyy") Date anyo){
+		return embarqueService.getIngresosPorTienda(nombreTienda, anyo);
+	}
 	
 }
