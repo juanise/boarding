@@ -20,7 +20,7 @@ import reactor.core.publisher.Mono;
 import reactor.util.function.Tuple2;
 
 @RestController
-@RequestMapping("/embarque")
+@RequestMapping("/embarques")
 public class EmbarqueController {
 	
 	@Autowired

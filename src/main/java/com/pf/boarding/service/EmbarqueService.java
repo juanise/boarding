@@ -40,7 +40,7 @@ public class EmbarqueService{
 		ExampleMatcher customExampleMatcher = ExampleMatcher.matchingAny()
 				.withMatcher("destino", ExampleMatcher.GenericPropertyMatchers.exact().ignoreCase())
 				.withMatcher("fechaPasoSeguridad", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase()
-				.);
+				);
 
 		Example<Embarque> example = Example.of(new Embarque(null, null, null, destino, null, fecha, null, null), customExampleMatcher);
 		return embarqueRepository.findAll(example);
